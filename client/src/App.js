@@ -5,6 +5,9 @@ import Courses from './components/Courses';
 import Header from './components/Header';
 import UserSignIn from './components/UserSignIn';
 import Auth from './context/Auth';
+import PrivateRoute from './components/PrivateRoute'
+import CreateCourse from './components/CreateCourse';
+import UserSignOut from './components/UserSignOut'
 
 const App = () => {
   return ( 
@@ -15,8 +18,9 @@ const App = () => {
           <Route exact path='/' >
             <Courses />
           </Route>
-          <Route exact path='/courses/create' >
-          </Route>
+          <PrivateRoute exact path='/courses/create' >
+            <CreateCourse />
+          </PrivateRoute>
           <Route path='/courses/:id' >
           </Route>
           <Route path='/courses/:id/update' >
@@ -27,6 +31,7 @@ const App = () => {
           <Route path="/signup">
           </Route>
           <Route path="/signout">
+            <UserSignOut />
           </Route>
         </Switch>
       </Router>

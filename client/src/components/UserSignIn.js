@@ -1,14 +1,15 @@
 import React, { useContext, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 
 const UserSignIn = () => {
 
-  const { signIn } = useContext(AuthContext)
+  const { signIn, isAuthenticated } = useContext(AuthContext)
   const emailRef = useRef('')
   const passwordRef = useRef('')
 
   return (
+    isAuthenticated ? <Redirect to={{ pathname: "/" }} /> :
     <div className="bounds">
       <div className="grid-33 centered signin">
         <h1>Sign In</h1>
