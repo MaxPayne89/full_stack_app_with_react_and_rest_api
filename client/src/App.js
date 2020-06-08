@@ -8,6 +8,7 @@ import Auth from './context/Auth';
 import PrivateRoute from './components/PrivateRoute'
 import CreateCourse from './components/CreateCourse';
 import UserSignOut from './components/UserSignOut'
+import CourseDetail from './components/CourseDetail'
 
 const App = () => {
   return ( 
@@ -22,6 +23,7 @@ const App = () => {
             <CreateCourse />
           </PrivateRoute>
           <Route path='/courses/:id' >
+            <CourseDetail />
           </Route>
           <Route path='/courses/:id/update' >
           </Route>

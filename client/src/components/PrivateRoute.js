@@ -9,6 +9,9 @@ const PrivateRoute = (children, ...rest) => {
     <Route
       {...rest}
       render={() =>
+        isLoading ? (
+          <p>Loading...</p>
+        ) :
         isAuthenticated ? (
           children
         ) : (
