@@ -18,6 +18,7 @@ const CourseDetail = () => {
             <span>
               <Link className="button" to="/">Update Course</Link>
               <Link className="button" to="/">Delete Course</Link>
+              <Link className="button button-secondary" to="/">Return to List</Link>
             </span>
           </div>
         </div>
