@@ -1,6 +1,5 @@
 import React, {useState, createContext } from 'react'
 import axios from 'axios'
-import useFetchData from '../hooks/useFetchData'
 
 export const AuthContext = createContext({})
 

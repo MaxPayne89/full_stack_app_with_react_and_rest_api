@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 
 const UserSignIn = () => {
-
+  const history = useHistory()
   const { signIn, isAuthenticated } = useContext(AuthContext)
   const emailRef = useRef('')
   const passwordRef = useRef('')
@@ -16,7 +16,9 @@ const UserSignIn = () => {
           <div>
             <form onSubmit={ (e) => {
               e.preventDefault()
-              signIn(emailRef.current.value, passwordRef.current.value)}
+              signIn(emailRef.current.value, passwordRef.current.value)
+              history.push("/")
+              }
               } >
               <div>
                 <input ref={emailRef} id="emailAddress" name="emailAddress" type="text" placeholder="Email Address"></input>
@@ -26,7 +28,7 @@ const UserSignIn = () => {
               </div>
               <div className="grid-100 pad-bottom">
                 <button className="button" type="submit">Sign In</button>
-                <button className="button button-secondary">Cancel</button>
+                <button className="button button-secondary" onClick={() => history.push("/")} >Cancel</button>
               </div>
             </form>
           </div>
