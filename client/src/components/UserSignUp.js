@@ -20,11 +20,6 @@ const UserSignUp = () => {
     }
   }
 
-  const postData = async (user) => {
-    const result = await axios.post('http://localhost:5000/api/users', user)
-    return result.data
-  }
-
   return (
     <div className="bounds">
       <div className="grid centered signin">

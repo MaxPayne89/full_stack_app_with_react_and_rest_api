@@ -1,4 +1,4 @@
-import React, {useState, createContext } from 'react'
+import React, {useState, createContext, useEffect } from 'react'
 import axios from 'axios'
 
 export const AuthContext = createContext({})
@@ -7,6 +7,11 @@ export const Auth = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
+  //check local storage for existing user
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    user ? setIsAuthenticated(true) : setIsAuthenticated(false)
+  })
   //asynchronous func which handles the sign procedure
   const signIn = async (username, password) => {
     setIsError(false)
@@ -19,6 +24,8 @@ export const Auth = ({ children }) => {
     }
     try {
       const result = await axios('http://localhost:5000/api/users', requestConfig)
+      //set encrypted password
+      result.data.password = btoa(password)
       localStorage.setItem('user', JSON.stringify(result.data))
       setIsAuthenticated(true)
     } catch(err) {
