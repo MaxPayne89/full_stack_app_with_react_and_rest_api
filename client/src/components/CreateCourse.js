@@ -15,6 +15,7 @@ function CreateCourse() {
     <div className="bounds course--detail">
       <h1>Create Course</h1>
       <div>
+      {/*if there are errors, display them to the user */}
       {isError && 
         <div>
           <h2 className="validation--errors--label">Validation Errors</h2>
@@ -33,6 +34,7 @@ function CreateCourse() {
           e.preventDefault()
           const user = JSON.parse(localStorage.getItem('user'))
           const username = user.username
+          //decrypt the password
           const password = atob(user.password)
           const requestConfig = {
             auth: {
@@ -47,7 +49,12 @@ function CreateCourse() {
             materialsNeeded: materialsRef.current.value
           }
           axios.post('http://localhost:5000/api/courses', course, requestConfig)
-          .then(res => console.log(res))
+          .then(res => {
+            //redirect if status signals succesful post
+            if(res.status === 201){
+              history.push("/")
+            }
+          })
           .catch(err => {
             setIsError(true)
             setErrorMsg(err.response.data.errors)

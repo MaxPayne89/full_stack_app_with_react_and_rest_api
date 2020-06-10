@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Courses from './components/Courses';
 import Header from './components/Header';
 import UserSignIn from './components/UserSignIn';
@@ -11,6 +11,7 @@ import UserSignOut from './components/UserSignOut'
 import CourseDetail from './components/CourseDetail'
 import UserSignUp from './components/UserSignUp'
 import UpdateCourse from './components/UpdateCourse'
+import NoMatch from './components/NoMatch';
 
 const App = () => {
   return ( 
@@ -39,6 +40,9 @@ const App = () => {
           {/* does that necessarily have to be a route? I solved it a little differently. See the header component for that. */}
           <Route path="/signout">
             <UserSignOut />
+          </Route>
+          <Route>
+            <NoMatch path="*" />
           </Route>
         </Switch>
       </Router>

@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+import { AuthContext } from '../context/Auth'
 
 const UserSignUp = () => {
+  const { signIn } = useContext(AuthContext)
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState([])
   const history = useHistory()
@@ -12,6 +14,7 @@ const UserSignUp = () => {
   const passwordref = useRef('')
   const confirmPasswordRef = useRef('')
 
+  //make sure that the passwords provided do indeed match
   const checkPasswords = () => {
     if(passwordref.current.value === confirmPasswordRef.current.value){
       return true
@@ -48,7 +51,13 @@ const UserSignUp = () => {
                 password: passwordref.current.value
               }
               axios.post('http://localhost:5000/api/users', user)
-              .then(res => console.log(res))
+              .then(res => {
+                //sign the user in and redirect if the status indicates a success
+                if(res.status === 201){
+                  signIn(user.emailAddress, user.password)
+                  history.push("/")
+                }
+              })
               .catch(err => {
                 setIsError(true)
                 setErrorMsg(err.response.data.errors)

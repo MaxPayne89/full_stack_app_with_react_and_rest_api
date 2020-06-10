@@ -13,7 +13,7 @@ const Courses = () => {
       <div className="bounds">
         {data.map(course => {
           return (
-            <div className="grid-33">
+            <div key={course.id} className="grid-33">
               <Link className="course--module course--link" to={`/courses/${course.id}`} >
                 <h4 className="course--label">Course</h4>
                 <h3 id={course.id} className="course--title">{course.title}</h3>
