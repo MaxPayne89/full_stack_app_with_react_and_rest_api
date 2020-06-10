@@ -10,6 +10,7 @@ import CreateCourse from './components/CreateCourse';
 import UserSignOut from './components/UserSignOut'
 import CourseDetail from './components/CourseDetail'
 import UserSignUp from './components/UserSignUp'
+import UpdateCourse from './components/UpdateCourse'
 
 const App = () => {
   return ( 
@@ -23,15 +24,16 @@ const App = () => {
           <PrivateRoute exact path='/courses/create' >
             <CreateCourse />
           </PrivateRoute>
-          <Route path='/courses/:id' >
+          <Route exact path='/courses/:id' >
             <CourseDetail />
           </Route>
-          <PrivateRoute path='/courses/:id/update' >
+          <PrivateRoute exact path='/courses/:id/update' >
+            <UpdateCourse />
           </PrivateRoute>
-          <Route path="/signin">
+          <Route exact path="/signin">
             <UserSignIn />
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <UserSignUp />
           </Route>
           {/* does that necessarily have to be a route? I solved it a little differently. See the header component for that. */}

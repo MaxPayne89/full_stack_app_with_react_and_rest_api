@@ -1,11 +1,24 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import useFetchData from '../hooks/useFetchData'
+import { AuthContext } from '../context/Auth'
 import "../styles/global.css"
+import ReactMarkdown from 'react-markdown'
 
 const CourseDetail = () => {
   const { id } = useParams()
-  const [{data, isError, isLoading}, fetchData] = useFetchData(`http://localhost:5000/api/courses/${id}`)
+  const [{data, isError, isLoading}] = useFetchData(`http://localhost:5000/api/courses/${id}`)
+  const { isAuthenticated } = useContext(AuthContext)
+
+  const checkIdUserToCourse = () => {
+    const idOfUser = JSON.parse(localStorage.getItem('user')).id
+    const userId =  data.userId
+    if(userId === idOfUser ){
+      return true
+    }else {
+      return false
+    }
+  }
 
   return (
     <Fragment>
@@ -16,8 +29,13 @@ const CourseDetail = () => {
         <div className="bounds">
           <div className="grid-100">
             <span>
-              <Link className="button" to="/">Update Course</Link>
-              <Link className="button" to="/">Delete Course</Link>
+            { ( isAuthenticated && checkIdUserToCourse() ) && (
+              <Fragment>
+                <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
+                <Link className="button" to="/">Delete Course</Link>
+              </Fragment>
+              )
+            }
               <Link className="button button-secondary" to="/">Return to List</Link>
             </span>
           </div>
@@ -43,21 +61,21 @@ const CourseDetail = () => {
           <div className="course--stats">
             <ul className="course--stats--list">
               <li className="course--stats--list--item">
-                <h4>Estimated Time</h4>
-                <h3>{data.estimatedTime}</h3>
+                  <h4>Estimated Time</h4>
+                  <h3><ReactMarkdown>{data.estimatedTime}</ReactMarkdown></h3>
               </li>
               <li className="course--stats--list--item">
                 <h4>Materials Needed</h4>
                 <ul>
-                  {data.materialsNeeded.split("\n").map(material => {
+                  {data.materialsNeeded ? (data.materialsNeeded.split("\n").map(material => {
                     if(material){
                       return(
-                          <li>{material}</li>
+                          <ReactMarkdown>{material}</ReactMarkdown>
                       )
                     } else {
                       return null
                     }
-                  })}
+                  })) : null }
                 </ul>
 
               </li>
