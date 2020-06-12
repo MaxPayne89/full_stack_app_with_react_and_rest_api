@@ -41,8 +41,8 @@ const App = () => {
           <Route path="/signout">
             <UserSignOut />
           </Route>
-          <Route>
-            <NoMatch path="*" />
+          <Route path="*">
+            <NoMatch /> 
           </Route>
         </Switch>
       </Router>

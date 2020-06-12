@@ -6,6 +6,7 @@ const Header = () => {
   const { isAuthenticated, logout } = useContext(AuthContext)
   const userData = JSON.parse(localStorage.getItem('user'))
   const history = useHistory()
+  //check if the user is authenticated. If so, display his/her name. Otherwise, show options to sign up or in
   return (
     isAuthenticated ? (
     <div className="header">

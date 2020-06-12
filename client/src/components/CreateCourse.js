@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 function CreateCourse() {
+  //react-router hook
   const history = useHistory()
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState([])
@@ -36,12 +37,14 @@ function CreateCourse() {
           const username = user.username
           //decrypt the password
           const password = atob(user.password)
+          //config needed for basic auth
           const requestConfig = {
             auth: {
               username,
               password
             }
           }
+          //create course obhect that is to be submitted
           const course = {
             title: titleRef.current.value,
             description: descriptionRef.current.value,

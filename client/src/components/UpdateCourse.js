@@ -4,9 +4,12 @@ import useFetchData from '../hooks/useFetchData'
 import axios from 'axios'
 
 const UpdateCourse = () => {
+  //react-router hooks
   const { id } = useParams()
   const history = useHistory()
   const [{data, isError, isLoading}] = useFetchData(`http://localhost:5000/api/courses/${id}`)
+  //I decided to with useRef because I wanted to try it out. It'd be possible to replace all of those with useState and run the setter function
+  //when the value of respective input field changes
   const titleRef = useRef('')
   const descriptionRef = useRef('')
   const timeRef = useRef('')
@@ -16,11 +19,15 @@ const UpdateCourse = () => {
 
   return (
     <Fragment>
+    {/* Only display if the fetch runs into an error code */}
     { isError && <p>Something went wrong. Try refreshing the page, please.</p>}
+    {/* Only display while loading  */}
     { isLoading && <p>Loading...</p> }
+    {/* Only display when the data from the fetch is available */}
     { data && <div className="bounds course--detail">
       <h1>Update Course</h1>
       <div>
+      {/* Only display when something went wrong when submitting the form*/}
       {isSubmitError && 
         <div>
           <h2 className="validation--errors--label">Validation Errors</h2>
@@ -48,6 +55,7 @@ const UpdateCourse = () => {
               password
             }
           }
+          //create the course object which be part of the put request
           const course = {
             title: titleRef.current.value,
             description: descriptionRef.current.value,

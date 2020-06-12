@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom'
 import useFetchData from '../hooks/useFetchData'
 
 const Courses = () => {
-  const [{data, isLoading, isError}] = useFetchData('http://localhost:5000/api/courses', [])
+  const [{data, isLoading, isError}] = useFetchData('http://localhost:5000/api/courses')
 
   return (
     <Fragment>
+      {/*Only display when loading */}
       {isLoading && <p>Loading...</p>}
+      {/*Only display when something went wrong with the fetch */}
       {isError && <p>Something went wrong</p>}
-      <div className="bounds">
+      {/*Only display when data is available  */}
+      {data && <div className="bounds">
         {data.map(course => {
           return (
             <div key={course.id} className="grid-33">
@@ -32,6 +35,7 @@ const Courses = () => {
           </Link>
         </div>
       </div>
+      }
     </Fragment>
   )
 

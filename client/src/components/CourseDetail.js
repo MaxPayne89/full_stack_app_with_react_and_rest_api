@@ -7,7 +7,10 @@ import ReactMarkdown from 'react-markdown'
 import axios from 'axios'
 
 const CourseDetail = () => {
+  //react-router hooks
+  //extract id from url
   const { id } = useParams()
+  //history object
   const history = useHistory()
   const [{data, isError, isLoading}] = useFetchData(`http://localhost:5000/api/courses/${id}`)
   const { isAuthenticated } = useContext(AuthContext)
@@ -26,14 +29,19 @@ const CourseDetail = () => {
 
   return (
     <Fragment>
+    {/*Only display when something went wrong while sending the delete request */}
     { deleteError && <p>Something went wrong, probably a network issue.</p> }
+    {/*Only display when wrong with the fetch*/}
     {isError && <p>Something went wrong. Try refreshing the page, please</p>}
+    {/*Only display while loading*/}
     {isLoading && <p>Loading...</p>}
+    {/*Only display when data is available*/}
     {data && <div>
       <div className="actions--bar">
         <div className="bounds">
           <div className="grid-100">
             <span>
+              {/*buttons are only visible to the user that created the course*/}
             { ( isAuthenticated && checkIdUserToCourse() ) && (
               <Fragment>
                 <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
