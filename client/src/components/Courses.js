@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import useFetchData from '../hooks/useFetchData'
 
 const Courses = () => {
-  const [{data, isLoading, isError}, fetchData] = useFetchData('http://localhost:5000/api/courses', [])
+  const [{data, isLoading, isError}] = useFetchData('http://localhost:5000/api/courses', [])
 
   return (
     <Fragment>

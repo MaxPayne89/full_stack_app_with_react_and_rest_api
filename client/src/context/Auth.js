@@ -11,7 +11,7 @@ export const Auth = ({ children }) => {
   useEffect(() => {
     const user = localStorage.getItem('user')
     user ? setIsAuthenticated(true) : setIsAuthenticated(false)
-  })
+  },[])
   //asynchronous func which handles the sign procedure
   const signIn = async (username, password) => {
     setIsError(false)
@@ -32,19 +32,6 @@ export const Auth = ({ children }) => {
       setIsError(true)
     }
     setIsLoading(false)
-    // const [{data, isError}, fetchData] = useFetchData('http://localhost:5000/api/users', requestConfig)
-    // const response = await axios('http://localhost:5000/api/users', {
-    //   auth: {
-    //     username,
-    //     password
-    //   }
-    // })
-    // if(response.status === 200){
-    //   localStorage.setItem('user', JSON.stringify(response.data))
-    //   setIsAuthenticated(true)
-    // } else if(response.status === 401) {
-    //   setIsError(true)
-    // }
   }
   const logout = () => {
     localStorage.removeItem('user')

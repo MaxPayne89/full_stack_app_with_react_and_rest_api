@@ -2,13 +2,12 @@
 in the Headers sign out button.
 */
 import React, { useContext } from 'react'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 
 
 function UserSignOut() {
   const { logout } = useContext(AuthContext)
-  const history = useHistory()
   logout()
   return (
     <Redirect to={{ pathname: "/"}} />

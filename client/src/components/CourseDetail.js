@@ -76,9 +76,9 @@ const CourseDetail = () => {
           </div>
           <div className="course--description">
           {/*make sure that the property exists */}
-            {data.description ? (data.description.split("\n").map( sentence => {
+            {data.description ? (data.description.split("\n").map( (sentence, index) => {
               return (
-                <p>{sentence}</p>
+                <ReactMarkdown key={index}>{sentence}</ReactMarkdown>
               )
             }
             )) : null }
@@ -89,16 +89,16 @@ const CourseDetail = () => {
             <ul className="course--stats--list">
               <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3><ReactMarkdown>{data.estimatedTime}</ReactMarkdown></h3>
+                  <h3>{data.estimatedTime}</h3>
               </li>
               <li className="course--stats--list--item">
                 <h4>Materials Needed</h4>
                 <ul>
                   {/*make sure that the property exists */}
-                  {data.materialsNeeded ? (data.materialsNeeded.split("\n").map(material => {
+                  {data.materialsNeeded ? (data.materialsNeeded.split("\n").map((material, index) => {
                     if(material){
                       return(
-                          <ReactMarkdown>{material}</ReactMarkdown>
+                          <ReactMarkdown key={index}>{material}</ReactMarkdown>
                       )
                     } else {
                       return null
