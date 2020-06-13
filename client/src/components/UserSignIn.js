@@ -1,28 +1,30 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 import axios from 'axios'
 import { useLocalStorage } from 'react-use'
 
 const UserSignIn = () => {
   const history = useHistory()
-  const [user, setUser] = useLocalStorage('user', '')
+  const location = useLocation()
+  let { from } = location.state || { from: { pathname: "/" } };
+  const [, setUser] = useLocalStorage('user', '')
   const [isError, setIsError] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('Access Denied')
+  const [errorMsg, setErrorMsg] = useState('')
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
   const emailRef = useRef('')
   const passwordRef = useRef('')
 
-  //if the user is already authenticated, he should be redirected
+  //if the user is already authenticated, he should be redirected to where he came from
   return (
-    isAuthenticated ? <Redirect to={{ pathname: "/" }} /> :
+    isAuthenticated ? <Redirect to={from.pathname} /> :
     <div className="bounds">
     {isError && 
             <div>
               <h2 className="validation--errors--label">Authorization Error</h2>
               <div className="validation-errors">
                 <ul>
-                    {/* <li>{errorMsg.toString()}</li> */}
+                    {/*There's only one message, so no need for a loop  */}
                     <li>{errorMsg}</li>
                 </ul>
               </div>
@@ -41,8 +43,6 @@ const UserSignIn = () => {
               }
               axios('http://localhost:5000/api/users', requestConfig)
               .then(res => {
-                console.log(res.status)
-                console.log(res.data)
                 if(res.status === 200){
                   res.data.password = btoa(requestConfig.auth.password)
                   setUser(res.data)
@@ -50,20 +50,11 @@ const UserSignIn = () => {
                 }
                })
               .catch(err => {
-                if(err.response){
-                  console.log(err)
-                  setIsError(true)
-                  setErrorMsg(err.response.data.errors)
-                } else if(err.request){
-                  console.log(err)
-                  setIsError(true)
-                  setErrorMsg("Received no response. Probably a network issue")
-                } else {
-                  console.log(err)
-                  setIsError(true)
-                  setErrorMsg("ended up here")
-                }
-                console.log(errorMsg)
+                console.error(err)
+                setErrorMsg('Access Denied')
+                setIsError(true)
+                //empty the password field
+                passwordRef.current.value = ''
                   })
                 }
             } >

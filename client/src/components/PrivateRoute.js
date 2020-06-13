@@ -5,21 +5,6 @@ import { AuthContext } from '../context/Auth'
 const PrivateRoute = ({children, ...rest}) => {
   const { isAuthenticated } = useContext(AuthContext)
 
-  // return (
-  //   <Route
-  //     {...rest}
-  //     render={() =>
-  //       isLoading ? (
-  //         <p>Loading...</p>
-  //       ) :
-  //       isAuthenticated ? (
-  //         children
-  //       ) : (
-  //         <Redirect to={{ pathname: "/signin" }} />
-  //       )
-  //     }
-  //   />
-  // );
   return (
     <Route
       {...rest}
