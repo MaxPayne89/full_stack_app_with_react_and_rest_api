@@ -22,9 +22,9 @@ function CreateCourse() {
           <h2 className="validation--errors--label">Validation Errors</h2>
           <div className="validation-errors">
             <ul>
-              {errorMsg.map(err => {
+              {errorMsg.map((err, index) => {
                 return (
-                  <li>{err}</li>
+                  <li key={index}>{err}</li>
                 )
               })}
             </ul>

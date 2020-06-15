@@ -30,7 +30,7 @@ export const Auth = ({ children }) => {
         setIsAuthenticated(true)
       }
      })
-    .catch(err => {
+    .catch(() => {
       setErrorMsg('Access Denied')
       setIsError(true)
       })

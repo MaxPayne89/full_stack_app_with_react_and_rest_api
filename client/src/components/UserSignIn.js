@@ -3,6 +3,7 @@ import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
 
 const UserSignIn = () => {
+  //history object from react-router
   const history = useHistory()
   const location = useLocation()
   let { from } = location.state || { from: { pathname: "/" } };
