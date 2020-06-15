@@ -1,17 +1,12 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { AuthContext } from '../context/Auth'
-import axios from 'axios'
-import { useLocalStorage } from 'react-use'
 
 const UserSignIn = () => {
   const history = useHistory()
   const location = useLocation()
   let { from } = location.state || { from: { pathname: "/" } };
-  const [, setUser] = useLocalStorage('user', '')
-  const [isError, setIsError] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('')
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated, signIn, isError, errorMsg } = useContext(AuthContext)
   const emailRef = useRef('')
   const passwordRef = useRef('')
 
@@ -34,29 +29,9 @@ const UserSignIn = () => {
         <h1>Sign In</h1>
           <div>
             <form onSubmit={ (e) => {
-              e.preventDefault()
-              const requestConfig = {
-                auth: {
-                  username: emailRef.current.value,
-                  password: passwordRef.current.value
-                }
+                e.preventDefault()
+                signIn(emailRef.current.value, passwordRef.current.value)
               }
-              axios('http://localhost:5000/api/users', requestConfig)
-              .then(res => {
-                if(res.status === 200){
-                  res.data.password = btoa(requestConfig.auth.password)
-                  setUser(res.data)
-                  setIsAuthenticated(true)
-                }
-               })
-              .catch(err => {
-                console.error(err)
-                setErrorMsg('Access Denied')
-                setIsError(true)
-                //empty the password field
-                passwordRef.current.value = ''
-                  })
-                }
             } >
               <div>
                 <input ref={emailRef} id="emailAddress" name="emailAddress" type="email" placeholder="Email Address"></input>

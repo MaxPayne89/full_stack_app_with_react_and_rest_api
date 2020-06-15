@@ -42,7 +42,7 @@ const UserSignUp = () => {
           </div>
         </div>}
         <div>
-          <form onSubmit={(e) => {
+          <form onSubmit={async (e) => {
             e.preventDefault()
             const match = checkPasswords()
             if(match){
@@ -57,13 +57,22 @@ const UserSignUp = () => {
               .then(res => {
                 //sign the user in and redirect if the status indicates a success
                 if(res.status === 201){
-                  signIn(user.emailAddress, user.password)
-                  history.push("/")
+                 signIn(emailRef.current.value, passwordref.current.value) 
                 }
               })
+              .then(() => history.push("/"))
               .catch(err => {
                 setIsError(true)
-                setErrorMsg(err.response.data.errors)
+                if (err.response) {
+                  // client received an error response (5xx, 4xx)
+                  setErrorMsg(err.response.data.errors)
+                } else if (err.request) {
+                  // client never received a response, or request never left
+                  setErrorMsg('Network Issue! Try refreshing the page.')
+                } else {
+                  // anything else
+                  setErrorMsg("Something went wrong...")
+                }
               })
             } else {
               alert("Your passwords do not match, please check again!")
